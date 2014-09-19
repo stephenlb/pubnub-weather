@@ -1,0 +1,33 @@
+//= require EventSource
+
+var setupPushServerConnection = function (namespace, onmessage, callback) {
+  var connection
+
+  if ('WebSocket' in window) {
+    connection = new WebSocket('ws://<%= ::Psych.load_file("#{::Rails.root}/config/push_server.yml")['host'] %>:8081/')
+
+    connection.addEventListener('open', function () {
+      var data = {channel: namespace}
+
+      connection.send(JSON.stringify(data))
+    })
+
+    connection.addEventListener('close', function () {
+      setTimeout(function () {
+        setupPushServerConnection(namespace, onmessage, callback)
+      }, 1000)
+    })
+
+  } else
+    connection = new EventSource(location.pathname + '/broadcast')
+
+  connection.addEventListener('message', function (event) {
+    var json = $.parseJSON(event.data)
+    if (json)
+      onmessage(json)
+  })
+
+  if (typeof callback === 'function')
+    callback(connection)
+
+}

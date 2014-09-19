@@ -1,0 +1,8 @@
+{
+  "name": "demo-app-push-server",
+  "private": true,
+  "dependencies": {
+    "websocket": "1.0.8",
+    "posix-fork": "*"
+  }
+}

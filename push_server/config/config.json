@@ -1,0 +1,13 @@
+{
+  "listener": {
+    "port": 8082,
+    "host": "127.0.0.1"
+  },
+  "eventsource": {
+    "port": 3333,
+    "host": "127.0.0.1"
+  },
+  "websocket": {
+    "port": 8081
+  }
+}
